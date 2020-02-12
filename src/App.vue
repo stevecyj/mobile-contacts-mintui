@@ -1,6 +1,6 @@
 <template>
     <div id="app">
-        <mt-header title="标题过长会隐藏后面的内容啊哈哈哈哈">
+        <mt-header title="通訊錄">
             <mt-button icon="back" slot="left">返回</mt-button>
             <mt-button icon="more" slot="right"></mt-button>
         </mt-header>
@@ -10,14 +10,20 @@
                 <mt-cell title="Alden"></mt-cell>
                 <mt-cell title="Austin"></mt-cell>
             </mt-index-section> -->
-            <mt-index-section v-for="item in userData" :key="item.index" :index="item.index">
-                <mt-cell v-for="(user, i) in item.users" :key="i" :title="user.name"></mt-cell>
+            <mt-index-section v-for="item in userData" :index="item.index" :key="item.index">
+                <mt-cell
+                    v-for="(user, id) in item.users"
+                    @click.native="telAlert(user.tel)"
+                    :title="user.name"
+                    :key="id"
+                ></mt-cell>
             </mt-index-section>
         </mt-index-list>
     </div>
 </template>
 
 <script>
+    import { MessageBox } from 'mint-ui'
     var userData = [
         {
             index: 'A',
@@ -92,6 +98,15 @@
         data() {
             return {
                 userData: userData
+            }
+        },
+        methods: {
+            telAlert: function(tel) {
+                MessageBox({
+                    title: '撥打',
+                    message: tel,
+                    showCancelButton: true
+                })
             }
         }
     }
